@@ -3,7 +3,7 @@ from html.parser import HTMLParser
 from urllib import parse
 
 links=[]
-f = open('a.txt','r')   # Replace a.txt with appropriate file name that contains links of webpages
+f = open('links.txt','r')   # Replace a.txt with appropriate file name that contains links of webpages
 for line in f:
     a = line.replace('\n','')
     links.append(a)
@@ -35,10 +35,15 @@ count=1
 for url in links:
     if url=='':
         break
-    response = request.urlopen(url)
-    bytes = response.read()
-    string = bytes.decode('utf-8')
-    #print(string)
-    downloader = Download_images(url,count)
-    downloader.feed(string)
-count = downloader.get_count()
+    print(url)
+
+    try:
+        response = request.urlopen(url)
+        bytes = response.read()
+        string = bytes.decode('utf-8')
+        #print(string)
+        downloader = Download_images(url,count)
+        downloader.feed(string)
+        count = downloader.get_count()
+    except:
+        print("Access forbidden or no further crawling possible")
